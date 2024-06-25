@@ -1,6 +1,6 @@
-# r3f-logos
+# r3f-simple-mask-move
 
-_Simple Three.js Experience with R3F and logos._
+_Simple Experience Three.js with R3F and Mask / Stencil._
 
 🧪 **v0.1.0** **〢**
 🖥 [Live Demo](https://sp0ne.github.io/r3f-logos/) **〢** [Codesandbox](https://codesandbox.io/s/r3f-logos)
