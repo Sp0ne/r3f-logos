@@ -48,6 +48,29 @@ main .tips {
 FOOTER
 -------------------------------------------------
 */
+main .header {
+    margin: 15px;
+    font-size: 10px;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0%;
+    z-index: 999;
+}
+main .header a.logo svg {
+    fill: white;
+    width: 35px;
+    height: auto;
+    transition: all 0.2s ease-in;
+}
+main .header a.logo:hover svg {
+    fill: #e04de8;
+}
+/*
+-------------------------------------------------
+FOOTER
+-------------------------------------------------
+*/
 main .footer {
   margin: 15px;
   font-size: 10px;
@@ -65,7 +88,7 @@ main .footer a {
   opacity: 0.2;
 }
 main .footer a:hover {
-  color: #11e8bb;
+  color: #e04de8;
   letter-spacing: 0.8px;
   opacity: 1;
 }
