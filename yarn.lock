@@ -809,6 +809,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@radix-ui/react-icons@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "@radix-ui/react-icons@npm:1.3.0"
+  peerDependencies:
+    react: ^16.x || ^17.x || ^18.x
+  checksum: 10c0/581657680e43fd13ff06e01f963e3afa94671d4ce6c3fb126e2c70c993ab8650faa55286974032dbccfecca4db57308fb66d53771d765887e03600cddee84ae5
+  languageName: node
+  linkType: hard
+
 "@radix-ui/react-id@npm:1.1.0":
   version: 1.1.0
   resolution: "@radix-ui/react-id@npm:1.1.0"
@@ -1136,7 +1145,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-three/drei@npm:^9.107.0":
+"@react-three/drei@npm:^9.103.0, @react-three/drei@npm:^9.107.0":
   version: 9.107.0
   resolution: "@react-three/drei@npm:9.107.0"
   dependencies:
@@ -1541,6 +1550,20 @@ __metadata:
   peerDependencies:
     react: ">= 16.8.0"
   checksum: 10c0/978da66e4e7c424866ad52eba8fdf0ce93a4c8fc44f8837c7043e68c6a6107cd67e817fffb27f7db2ae871ef2f6addb0c8ddf1586f24c67b7e6aef1646c668cf
+  languageName: node
+  linkType: hard
+
+"@utsubo/events@npm:^0.1.7":
+  version: 0.1.7
+  resolution: "@utsubo/events@npm:0.1.7"
+  dependencies:
+    eventemitter3: "npm:^4.0.7"
+  peerDependencies:
+    react: ">=16.8.0"
+  peerDependenciesMeta:
+    react:
+      optional: true
+  checksum: 10c0/2a7e6b1eae7812871ef119080ecb0f705b70e39e295f5d75c158780c17a35d3523d350cd2c689ccb38408ae342fbef33c6024f9d0592c912e1b50ea6e5ef3101
   languageName: node
   linkType: hard
 
@@ -2735,6 +2758,13 @@ __metadata:
   version: 2.0.3
   resolution: "esutils@npm:2.0.3"
   checksum: 10c0/9a2fe69a41bfdade834ba7c42de4723c97ec776e40656919c62cbd13607c45e127a003f05f724a1ea55e5029a4cf2de444b13009f2af71271e42d93a637137c7
+  languageName: node
+  linkType: hard
+
+"eventemitter3@npm:^4.0.7":
+  version: 4.0.7
+  resolution: "eventemitter3@npm:4.0.7"
+  checksum: 10c0/5f6d97cbcbac47be798e6355e3a7639a84ee1f7d9b199a07017f1d2f1e2fe236004d14fa5dfaeba661f94ea57805385e326236a6debbc7145c8877fbc0297c6b
   languageName: node
   linkType: hard
 
@@ -4084,6 +4114,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mitt@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "mitt@npm:3.0.1"
+  checksum: 10c0/3ab4fdecf3be8c5255536faa07064d05caa3dd332bd318ff02e04621f7b3069ca1de9106cfe8e7ced675abfc2bec2ce4c4ef321c4a1bb1fb29df8ae090741913
+  languageName: node
+  linkType: hard
+
 "mixin-deep@npm:^1.2.0":
   version: 1.3.2
   resolution: "mixin-deep@npm:1.3.2"
@@ -4589,13 +4626,40 @@ __metadata:
     globals: "npm:^15.6.0"
     leva: "npm:0.9.35"
     prettier: "npm:^3.3.2"
+    r3f-perf: "npm:^7.2.1"
     react: "npm:18.3.1"
     react-dom: "npm:18.3.1"
     three: "npm:0.165.0"
     vite: "npm:^5.3.1"
     vite-plugin-glsl: "npm:^1.3.0"
+    wouter: "npm:^3.3.0"
   languageName: unknown
   linkType: soft
+
+"r3f-perf@npm:^7.2.1":
+  version: 7.2.1
+  resolution: "r3f-perf@npm:7.2.1"
+  dependencies:
+    "@radix-ui/react-icons": "npm:^1.3.0"
+    "@react-three/drei": "npm:^9.103.0"
+    "@stitches/react": "npm:^1.2.8"
+    "@utsubo/events": "npm:^0.1.7"
+    zustand: "npm:~4.5.2"
+  peerDependencies:
+    "@react-three/fiber": ">=8.0"
+    react: ">=18.0"
+    react-dom: ">=18.0"
+    three: ">=0.133"
+  peerDependenciesMeta:
+    "@react-three/fiber":
+      optional: true
+    dom:
+      optional: true
+    react-dom:
+      optional: true
+  checksum: 10c0/05fb8d8bd23d24936417a45708d51f12b108fb784846b48580801b52d0e9cd27764dc7299d9f419cadaec4689395aaf8c89613b88db95bb050b54bb3cbe40c22
+  languageName: node
+  linkType: hard
 
 "react-colorful@npm:^5.5.1":
   version: 5.6.1
@@ -4728,6 +4792,13 @@ __metadata:
     es-errors: "npm:^1.3.0"
     set-function-name: "npm:^2.0.1"
   checksum: 10c0/0f3fc4f580d9c349f8b560b012725eb9c002f36daa0041b3fbf6f4238cb05932191a4d7d5db3b5e2caa336d5150ad0402ed2be81f711f9308fe7e1a9bf9bd552
+  languageName: node
+  linkType: hard
+
+"regexparam@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "regexparam@npm:3.0.0"
+  checksum: 10c0/a6430d7b97d5a7d5518f37a850b6b73aab479029d02f46af4fa0e8e4a1d7aad05b7a0d2d10c86ded21a14d5f0fa4c68525f873a5fca2efeefcccd93c36627459
   languageName: node
   linkType: hard
 
@@ -5569,6 +5640,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"use-sync-external-store@npm:^1.0.0":
+  version: 1.2.2
+  resolution: "use-sync-external-store@npm:1.2.2"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 10c0/23b1597c10adf15b26ade9e8c318d8cc0abc9ec0ab5fc7ca7338da92e89c2536abd150a5891bf076836c352fdfa104fc7231fb48f806fd9960e0cbe03601abaf
+  languageName: node
+  linkType: hard
+
 "utility-types@npm:^3.10.0":
   version: 3.11.0
   resolution: "utility-types@npm:3.11.0"
@@ -5744,6 +5824,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"wouter@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "wouter@npm:3.3.0"
+  dependencies:
+    mitt: "npm:^3.0.1"
+    regexparam: "npm:^3.0.0"
+    use-sync-external-store: "npm:^1.0.0"
+  peerDependencies:
+    react: ">=16.8.0"
+  checksum: 10c0/ac266011c9af4aa0dff1c6974e39df2750796c907e9630bd9847ffd310deb4ed327a9be496608e84daa76f55f20b1c95beb1c46ac69b584c4b0eec7d3f30ad80
+  languageName: node
+  linkType: hard
+
 "wrap-ansi-cjs@npm:wrap-ansi@^7.0.0":
   version: 7.0.0
   resolution: "wrap-ansi@npm:7.0.0"
@@ -5813,7 +5906,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zustand@npm:^4.3.2":
+"zustand@npm:^4.3.2, zustand@npm:~4.5.2":
   version: 4.5.2
   resolution: "zustand@npm:4.5.2"
   dependencies:
