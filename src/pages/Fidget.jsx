@@ -1,11 +1,82 @@
 import { Instances, Instance, OrthographicCamera, useGLTF, Edges, PivotControls, OrbitControls } from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Leva, useControls } from 'leva'
-import { Suspense, useRef, useEffect, useState } from 'react'
-import { Physics, RigidBody, useFixedJoint } from '@react-three/rapier'
+import { Suspense, useRef, useEffect, useState, useCallback } from 'react'
+import { BallCollider, Physics, RigidBody, useFixedJoint } from '@react-three/rapier'
 import * as THREE from 'three'
 import Monitoring from '../components/Monitoring.jsx'
 import { FrontSide } from 'three'
+
+const Pointer = () => {
+  const shouldCollide = useRef(false);
+  const ref = useRef();
+  const vec = new THREE.Vector3();
+
+  useFrame(({ pointer, viewport }) => {
+    const horizontalMovement = ((pointer.x * viewport.width) / 2) * 0.8;
+    const verticalMovement = (pointer.y * viewport.height) / 2;
+
+    // We only want to apply the force if
+    // - the user is using a mouse
+    // - the user holds and drags the finger on the screen
+    // => this is to avoid weird side effects where users loose the collider on the screen causing
+    // unwanted edge cases on mobile
+    if (shouldCollide.current) {
+      vec.set(
+        0 - verticalMovement + horizontalMovement,
+        0,
+        0 - verticalMovement - horizontalMovement
+      );
+    } else {
+      // when not interacting with the screen, keep the collider out of reach
+      vec.set(0, 25, 0);
+    }
+
+    ref.current?.setNextKinematicTranslation(vec);
+  });
+
+  const onMouseDown = useCallback(() => {
+    // Finger on the screen detected -> we can turn on the shouldCollide flag
+    shouldCollide.current = true;
+  }, []);
+
+  const onMouseMove = useCallback(() => {
+    // Mouse move detected -> we can turn on the shouldCollide flag (we're on a desktop env)
+    shouldCollide.current = true;
+  }, []);
+
+  const onMouseUp = () => {
+    // Finger off the screen detected -> we can turn off the shouldCollide flag
+    shouldCollide.current = false;
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("touchstart", onMouseDown);
+    document.addEventListener("touchend", onMouseUp);
+
+    return () => {
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("touchstart", onMouseDown);
+      document.removeEventListener("touchend", onMouseUp);
+    };
+  }, [onMouseDown, onMouseMove]);
+
+  return (
+    <RigidBody
+      position={[5, 5, 5]}
+      type="kinematicPosition"
+      colliders={false}
+      ref={ref}
+    >
+      {/*<boxGeometry />*/}
+      <cylinderGeometry args={[0.8, 0.8, 0.8, 30]} />
+      <meshBasicMaterial color="#e04de8" wireframe transparent depthTest={false} opacity={0.0} />
+      <Edges scale={1.0} threshold={12} linewidth={2} color="#e04de8" />
+      <BallCollider args={[1.5]} />
+    </RigidBody>
+  );
+};
 
 function Movable({ children, startPosition = [0, 0, 0], ...props }) {
   const obj = useRef()
@@ -30,12 +101,13 @@ function Movable({ children, startPosition = [0, 0, 0], ...props }) {
       {/** Pivot controls a matrix, and steers the empty rigid body below */}
       <PivotControls
         matrix={matrix}
-        scale={1.75}
+        scale={2}
         disableRotations
         disableScaling
         activeAxes={[true, false, true]}
         depthTest={false}
         position={startPosition}
+        hoveredColor="#e04de8"
         // When drag is over snap matrix back to the object
         onDragEnd={() => matrix.setPosition(vec.copy(obj.current?.translation()))}
         // Get pivot matrix, apply it to the empty RB
@@ -44,7 +116,7 @@ function Movable({ children, startPosition = [0, 0, 0], ...props }) {
       {/** Empty RB is tied to cursor via pivot control above */}
       <RigidBody canSleep={false} type="kinematicPosition" ref={pointer} position={startPosition} />
       {/** Actual RB is tied to the empty via fixed constraint with CCD */}
-      <RigidBody ccd canSleep={false} colliders="hull" enabledRotations={[false, false, false]} ref={obj} position={startPosition}>
+      <RigidBody ccd canSleep={false} colliders={'cuboid'} enabledRotations={[false, false, false]} ref={obj} position={startPosition}>
         {children}
       </RigidBody>
     </group>
@@ -102,12 +174,12 @@ const Fidget = () => {
   return (
     <>
       {/** Makes contents movable */}
-      <Movable startPosition={[6, 0, 1]}>
+      <Movable startPosition={[5, 0, 2]}>
         <mesh>
           {/*<boxGeometry />*/}
-          <cylinderGeometry args={[0.6, 0.6, 0.6, 30]} />
+          <cylinderGeometry args={[0.8, 0.8, 0.8, 30]} />
           <meshBasicMaterial color="#e04de8" wireframe transparent depthTest={false} opacity={0.0} />
-          <Edges scale={1.0} threshold={2} linewidth={2} color="#e04de8" />
+          <Edges scale={1.0} threshold={12} linewidth={2} color="#e04de8" />
         </mesh>
       </Movable>
       {/*<Pointer />*/}
@@ -116,12 +188,14 @@ const Fidget = () => {
         linearDamping={4}
         angularDamping={1}
         friction={0.1}
+        gravityScale={1}
+        mass={0.6}
         enabledTranslations={[enableTranslations, false, enableTranslations]}
         enabledRotations={[false, enableRotations, false]}
         position={[0, 0, 0]}
-        colliders="hull"
+        colliders={'cuboid'}
       >
-        <mesh scale={3.0} position={[0, 0, 0]} rotation={[Math.PI / 2, Math.PI, Math.PI]} geometry={nodes.V.geometry}>
+        <mesh scale={3.5} position={[0, 0.5, 0]} rotation={[Math.PI / 2, Math.PI, Math.PI]} geometry={nodes.V.geometry}>
           <meshBasicMaterial color="#e04de8" wireframe transparent depthTest={false} opacity={0.0} />
           <Edges scale={1.0} threshold={2} linewidth={2} color="#e04de8" />
         </mesh>
@@ -137,6 +211,13 @@ const Floor = () => {
 
   return (
     <>
+      {/*<RigidBody type="fixed" friction={0.75} position={[0, -1, 0]}>
+        <mesh position={[0, 0, 0]}>
+          <boxGeometry args={[40, 0.2, 40]} />
+          <meshStandardMaterial color="#6EF7C9" />
+          <meshBasicMaterial color="#e04de8" transparent depthTest={false} opacity={0.5} />
+        </mesh>
+      </RigidBody>*/}
       <Instances position={[0, -0.5, 0]}>
         <planeGeometry args={[crossLineWidth, crossHeight]} />
         <meshBasicMaterial color="#e04de8" opacity={0.5} transparent />
@@ -168,10 +249,10 @@ const Scene = () => {
   return (
     <section className={'content fidget'}>
       <Leva collapsed titleBar={{ title: '⚙️ Settings' }} />
-      <Canvas mode="concurrent" className="webgl" shadows dpr={1.5}>
+      <Canvas className="webgl" dpr={1.5}>
         <Monitoring />
         <Suspense>
-          <OrthographicCamera makeDefault position={[10, 10, 10]} zoom={40} near={0.01} far={100} />
+          <OrthographicCamera makeDefault position={[10, 10, 10]} zoom={40} near={1} far={80} />
           <ambientLight intensity={1.25} color={'#f0f0f0'} />
           <color attach="background" args={['#2f1169']} />
           <Physics gravity={[0, 0, 0]} debug={debugPhysics} timeStep="vary">
