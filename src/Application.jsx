@@ -3,12 +3,16 @@ import { Link, Route, Router } from 'wouter'
 import Fidget from './pages/Fidget'
 import About from './pages/About'
 import Home from './pages/Home'
+import Base from './pages/Base'
 
 const Navigation = () => {
   // const [isActive] = useRoute(props.href);
   return (
     <>
       <nav className="navigation">
+        <Link href={'/r3f-logos/base'} className={(active) => (active ? 'active' : '')}>
+          Base
+        </Link>
         <Link href={'/r3f-logos/fidget'} className={(active) => (active ? 'active' : '')}>
           Fidget
         </Link>
@@ -61,6 +65,7 @@ const Application = () => {
           <section className={'container'}>
             <Route path="/" component={Home} />
             <Route path="/fidget" component={Fidget} />
+            <Route path="/base" component={Base} />
             <Route path="/about" component={About} />
           </section>
         </Router>

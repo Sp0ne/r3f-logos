@@ -263,6 +263,7 @@ const Scene = () => {
         {/* Grid Infinite */}
         {orbitControl && <OrbitControls makeDefault />}
       </Canvas>
+      <div className="tips">Drag the hockey and hit the letter</div>
     </section>
   )
 }

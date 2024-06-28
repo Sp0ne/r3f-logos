@@ -107,10 +107,10 @@ WEBGL
 }
 main .tips {
     margin: 15px;
-    font-size: 12px;
+    font-size: 11px;
     color: white;
-    position: fixed;
-    top: 10px;
+    position: absolute;
+    bottom: 10px;
     left: 10px;
     z-index: 10;
 }
@@ -155,7 +155,8 @@ main .header .navigation a {
     text-decoration: none;
 }
 
-main .header .navigation a:hover {
+main .header .navigation a:hover,
+main .header .navigation a.active {
     color: #e04de8;
     letter-spacing: 0.8px;
     opacity: 1;
