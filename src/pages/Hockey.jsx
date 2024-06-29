@@ -123,7 +123,7 @@ function Movable({ children, startPosition = [0, 0, 0], ...props }) {
   )
 }
 
-const Fidget = () => {
+const Hockey = () => {
   const physMesh = useRef()
   const { nodes } = useGLTF('./logo.glb')
   const { stiffness, enableRotations, enableTranslations } = useControls(
@@ -238,11 +238,11 @@ const Floor = () => {
 }
 
 const Scene = () => {
-  const { debugPhysics, orbitControl } = useControls(
+  const { debugPhysics, orbitControlF } = useControls(
     'Canvas.Physics',
     {
       debugPhysics: false,
-      orbitControl: false
+      orbitControlF: false
     },
     { collapsed: false }
   )
@@ -256,12 +256,12 @@ const Scene = () => {
           <ambientLight intensity={1.25} color={'#f0f0f0'} />
           <color attach="background" args={['#2f1169']} />
           <Physics gravity={[0, 0, 0]} debug={debugPhysics} timeStep="vary">
-            <Fidget />
+            <Hockey />
             <Floor />
           </Physics>
         </Suspense>
         {/* Grid Infinite */}
-        {orbitControl && <OrbitControls makeDefault />}
+        {orbitControlF && <OrbitControls makeDefault />}
       </Canvas>
       <div className="tips">Drag the hockey and hit the letter</div>
     </section>

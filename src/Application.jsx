@@ -1,9 +1,10 @@
 import { useRef } from 'react'
 import { Link, Route, Router } from 'wouter'
-import Fidget from './pages/Fidget'
 import About from './pages/About'
 import Home from './pages/Home'
 import Base from './pages/Base'
+import Glass from './pages/Glass.jsx'
+import Hockey from './pages/Hockey.jsx'
 
 const Navigation = () => {
   // const [isActive] = useRoute(props.href);
@@ -13,8 +14,11 @@ const Navigation = () => {
         <Link href={'/r3f-logos/base'} className={(active) => (active ? 'active' : '')}>
           Base
         </Link>
-        <Link href={'/r3f-logos/fidget'} className={(active) => (active ? 'active' : '')}>
-          Fidget
+        <Link href={'/r3f-logos/hockey'} className={(active) => (active ? 'active' : '')}>
+          Hockey
+        </Link>
+        <Link href={'/r3f-logos/glass'} className={(active) => (active ? 'active' : '')}>
+          Glass
         </Link>
         <Link href={'/r3f-logos/about'} className={(active) => (active ? 'active' : '')}>
           About
@@ -64,7 +68,8 @@ const Application = () => {
         <Router base="/r3f-logos">
           <section className={'container'}>
             <Route path="/" component={Home} />
-            <Route path="/fidget" component={Fidget} />
+            <Route path="/hockey" component={Hockey} />
+            <Route path="/glass" component={Glass} />
             <Route path="/base" component={Base} />
             <Route path="/about" component={About} />
           </section>
