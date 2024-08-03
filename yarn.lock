@@ -4632,6 +4632,7 @@ __metadata:
     three: "npm:0.165.0"
     vite: "npm:^5.3.1"
     vite-plugin-glsl: "npm:^1.3.0"
+    wiggle: "npm:^0.0.17"
     wouter: "npm:^3.3.0"
   languageName: unknown
   linkType: soft
@@ -5814,6 +5815,15 @@ __metadata:
   bin:
     node-which: bin/which.js
   checksum: 10c0/449fa5c44ed120ccecfe18c433296a4978a7583bf2391c50abce13f76878d2476defde04d0f79db8165bdf432853c1f8389d0485ca6e8ebce3bbcded513d5e6a
+  languageName: node
+  linkType: hard
+
+"wiggle@npm:^0.0.17":
+  version: 0.0.17
+  resolution: "wiggle@npm:0.0.17"
+  peerDependencies:
+    three: ">= 0.152.0"
+  checksum: 10c0/bbf59a777bdd5f81f3ecca6d101218066e0a094b24723274ac1d49a6a8bd3b49fa8e6e1e3c78b52d9d35d740fd1c147edef746a705bcbb501d88ff36fcf48028
   languageName: node
   linkType: hard
 

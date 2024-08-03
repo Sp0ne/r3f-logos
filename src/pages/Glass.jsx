@@ -8,7 +8,7 @@ import {
   GizmoViewport,
   Text,
   Lightformer,
-  MeshTransmissionMaterial
+  MeshTransmissionMaterial, Cloud, Clouds, Grid
 } from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Leva, useControls } from 'leva'
@@ -19,11 +19,11 @@ import * as THREE from 'three'
 const Model = (props) => {
   const ref = useRef()
   const { nodes } = useGLTF('./logo.glb')
-  /*useFrame((state) => {
+  useFrame((state) => {
     const t = state.clock.getElapsedTime()
     ref.current.rotation.set(Math.cos(t / 4) / 8, Math.sin(t / 3) / 4, 0.15 + Math.sin(t / 2) / 8)
     ref.current.position.y = (0.5 + Math.cos(t / 2)) / 7
-  })*/
+  })
   return (
     <group ref={ref}>
       <mesh
@@ -36,8 +36,8 @@ const Model = (props) => {
         material={nodes.V.material}
         {...props}
       >
-        <MeshTransmissionMaterial backside backsideThickness={10} thickness={5} />
-        {/*<MeshTransmissionMaterial
+        {/*<MeshTransmissionMaterial backside backsideThickness={10} thickness={5} />*/}
+        <MeshTransmissionMaterial
           backside
           samples={4}
           thickness={3}
@@ -49,7 +49,7 @@ const Model = (props) => {
           iridescence={1}
           iridescenceIOR={1}
           iridescenceThicknessRange={[0, 1400]}
-        />*/}
+        />
       </mesh>
     </ group>
   )
@@ -78,16 +78,19 @@ const Scene = () => {
       <Leva collapsed titleBar={{ title: '⚙️ Settings' }} />
       <Canvas className="webgl" dpr={1.5}>
         <Monitoring />
-        <Suspense>
+        <Suspense fallback={null}>
           <PerspectiveCamera makeDefault position={[0, 0, 8]} fov={75} />
           <ambientLight intensity={1.25} color={'#f0f0f0'} />
           <color attach="background" args={['#2f1169']} />
           <Environment preset="night">
             <Lightformer intensity={8} position={[10, 5, 0]} scale={[10, 50, 1]} onUpdate={(self) => self.lookAt(0, 0, 0)} />
           </Environment>
-          <ContactShadows resolution={512} position={[0, -2.3, 0]} opacity={1} scale={20} blur={3} far={4} />
-          <Model />
-          <Zoom />
+          <ContactShadows resolution={512} position={[0, -2.3, 0]} opacity={1} scale={20} blur={3} far={5} />
+          <Model position={[0, 0.8, 0]} rotation={[0, 0.5, 0]} />
+          <Clouds limit={400} material={THREE.MeshBasicMaterial}>
+            <Cloud position={[7, 2, 5]} rotation={[0, 30,0]} opacity={0.1} seed={10} fade={30} speed={0.1} growth={6} segments={40} volume={10} bounds={[4, 3, 1]}  color={'#f8b2fd'}/>
+            <Cloud position={[-7, 2, 5]} rotation={[0, 30,0]} opacity={0.1} seed={10} fade={30} speed={0.1} growth={6} segments={40} volume={10} bounds={[4, 3, 1]}  color={'#f8b2fd'}/>
+          </Clouds>
           <Text
             position={[0, 1, -80]}
             letterSpacing={-0.05}
@@ -101,7 +104,8 @@ const Scene = () => {
             {`Sp0ne`}
           </Text>
         </Suspense>
-        {/* Grid Infinite */}
+        {/* Control */}
+        <Zoom />
         {orbitControlG && <OrbitControls makeDefault />}
       </Canvas>
       <div className="tips">Drag the letter</div>
