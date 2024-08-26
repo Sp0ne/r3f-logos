@@ -4,13 +4,15 @@ import {
   useGLTF,
   PivotControls,
   OrbitControls,
-  PerspectiveCamera
+  PerspectiveCamera,
+  Outlines
 } from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Leva, useControls } from 'leva'
 import { Suspense, useRef, useEffect } from 'react'
 import Monitoring from '../components/Monitoring.jsx'
 import { WiggleBone } from 'wiggle'
+import { SkinnedMesh } from 'three'
 
 export function Model(props) {
   const { nodes, materials } = useGLTF('./logo-bones.glb')
@@ -21,7 +23,7 @@ export function Model(props) {
       console.log(bone)
       if (bone.isBone && bone !== nodes.RootBone) {
         const wiggleBone = new WiggleBone(bone, {
-          velocity: 0.2,
+          velocity: 0.45,
         });
         wiggleBones.current.push(wiggleBone);
       }
@@ -41,12 +43,14 @@ export function Model(props) {
   });
   return (
     <group {...props} dispose={null}>
+      <primitive object={nodes.RootBone} />
       <skinnedMesh
         geometry={nodes.V.geometry}
         material={materials.Glass}
         skeleton={nodes.V.skeleton}
-      />
-      <primitive object={nodes.RootBone} />
+      >
+      <Outlines thickness={0.2} color="pink"/>
+      </skinnedMesh>
     </group>
   )
 }
