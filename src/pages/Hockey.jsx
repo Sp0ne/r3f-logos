@@ -251,15 +251,13 @@ const Scene = () => {
       <Leva collapsed titleBar={{ title: '⚙️ Settings' }} />
       <Canvas className="webgl" dpr={1.5}>
         <Monitoring />
-        <Suspense>
-          <OrthographicCamera makeDefault position={[10, 10, 10]} zoom={40} near={1} far={80} />
-          <ambientLight intensity={1.25} color={'#f0f0f0'} />
-          <color attach="background" args={['#2f1169']} />
-          <Physics gravity={[0, 0, 0]} debug={debugPhysics} timeStep="vary">
-            <Hockey />
-            <Floor />
-          </Physics>
-        </Suspense>
+        <OrthographicCamera makeDefault position={[10, 10, 10]} zoom={40} near={1} far={80} />
+        <ambientLight intensity={1.25} color={'#f0f0f0'} />
+        <color attach="background" args={['#2f1169']} />
+        <Physics gravity={[0, 0, 0]} debug={debugPhysics} timeStep="vary">
+          <Hockey />
+          <Floor />
+        </Physics>
         {/* Grid Infinite */}
         {orbitControlF && <OrbitControls makeDefault />}
       </Canvas>

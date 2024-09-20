@@ -4,24 +4,23 @@ import {
   PerspectiveCamera,
   Environment,
   ContactShadows,
-  GizmoHelper,
-  GizmoViewport,
   Text,
   Lightformer,
-  MeshTransmissionMaterial, Cloud, Clouds, Grid
+  MeshTransmissionMaterial, Cloud, Clouds
 } from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Leva, useControls } from 'leva'
 import { Suspense, useRef } from 'react'
 import Monitoring from '../components/Monitoring.jsx'
 import * as THREE from 'three'
+import { Bloom, EffectComposer } from '@react-three/postprocessing'
 
 const Model = (props) => {
   const ref = useRef()
   const { nodes } = useGLTF('./logo.glb')
   useFrame((state) => {
     const t = state.clock.getElapsedTime()
-    ref.current.rotation.set(Math.cos(t / 4) / 8, Math.sin(t / 3) / 4, 0.15 + Math.sin(t / 2) / 8)
+    ref.current.rotation.set(Math.cos(t / 4) / 8, Math.sin(t / 3) / 2, 0.15 + Math.sin(t / 2) / 4)
     ref.current.position.y = (0.5 + Math.cos(t / 2)) / 7
   })
   return (
@@ -49,6 +48,7 @@ const Model = (props) => {
           iridescence={1}
           iridescenceIOR={1}
           iridescenceThicknessRange={[0, 1400]}
+          opacity={0.5}
         />
       </mesh>
     </ group>
@@ -78,7 +78,6 @@ const Scene = () => {
       <Leva collapsed titleBar={{ title: '⚙️ Settings' }} />
       <Canvas className="webgl" dpr={1.5}>
         <Monitoring />
-        <Suspense fallback={null}>
           <PerspectiveCamera makeDefault position={[0, 0, 8]} fov={75} />
           <ambientLight intensity={1.25} color={'#f0f0f0'} />
           <color attach="background" args={['#2f1169']} />
@@ -103,7 +102,6 @@ const Scene = () => {
             anchorY="middle">
             {`Sp0ne`}
           </Text>
-        </Suspense>
         {/* Control */}
         <Zoom />
         {orbitControlG && <OrbitControls makeDefault />}

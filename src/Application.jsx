@@ -6,6 +6,7 @@ import Base from './pages/Base'
 import Glass from './pages/Glass.jsx'
 import Hockey from './pages/Hockey.jsx'
 import Wiggle from './pages/Wiggle.jsx'
+import Shading from './pages/Shading.jsx'
 
 const Navigation = () => {
   // const [isActive] = useRoute(props.href);
@@ -23,6 +24,9 @@ const Navigation = () => {
         </Link>
         <Link href={'/r3f-logos/wiggle'} className={(active) => (active ? 'active' : '')}>
           Wiggle
+        </Link>
+        <Link href={'/r3f-logos/shading'} className={(active) => (active ? 'active' : '')}>
+          Shading
         </Link>
         <Link href={'/r3f-logos/about'} className={(active) => (active ? 'active' : '')}>
           About
@@ -75,6 +79,7 @@ const Application = () => {
             <Route path="/hockey" component={Hockey} />
             <Route path="/glass" component={Glass} />
             <Route path="/wiggle" component={Wiggle} />
+            <Route path="/shading" component={Shading} />
             <Route path="/base" component={Base} />
             <Route path="/about" component={About} />
           </section>

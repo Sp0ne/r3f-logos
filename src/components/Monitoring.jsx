@@ -6,8 +6,8 @@ export default function Monitoring() {
   const { visible, minimal } = useControls(
     'Canvas.Perf',
     {
-      visible: false,
-      minimal: true
+      visible: true,
+      minimal: false
     },
     { collapsed: true }
   )
