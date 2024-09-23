@@ -2,12 +2,11 @@
 
 _Simple Three.js Experience with R3F and logos._
 
-🧪 **v0.1.0** **〢**
-🖥 [Live Demo](https://sp0ne.github.io/r3f-logos/) **〢** [Codesandbox](https://codesandbox.io/s/r3f-logos)
+🧪 **v0.1.0** **〢** 🔗 [Live Demo](https://sp0ne.github.io/r3f-logos/)
 
 ---
 
-![Screen Starter](public/screenshots/r3f-mask-mouse.gif)
+![Screen Starter](public/screenshots/r3f-logos.png)
 
 ---
 
@@ -29,7 +28,7 @@ yarn start
 yarn preview
 ```
 
-👉 Go to [http://localhost:3000/r3f-simple-mask-move/](http://localhost:3000/r3f-simple-mask-move/)
+👉 Go to [http://localhost:3000/r3f-logos/](http://localhost:3000/r3f-logos/)
 
 ## 💾 Code Clean
 
@@ -81,7 +80,8 @@ yarn upgrade-interactive
 
 ---
 
-> **👋🏻**: 🦝 [vinces.io][vinces] **〢** 🐙 [@Sp0ne][vinces-git]
+> 👋🏻: Have Fun 🍻
+> 🦝 [vinces.io][vinces] **〢** 🐙 [@Sp0ne][vinces-git]
 
 ---
 
