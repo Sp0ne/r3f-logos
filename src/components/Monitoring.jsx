@@ -4,12 +4,12 @@ import { Perf } from 'r3f-perf'
 
 export default function Monitoring() {
   const { visible, minimal } = useControls(
-    'Canvas.Perf',
+    'Performance',
     {
       visible: true,
-      minimal: false
+      minimal: true
     },
-    { collapsed: true }
+    { collapsed: false }
   )
   const { width } = useThree((s) => s.size)
 

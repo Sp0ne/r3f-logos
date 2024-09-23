@@ -1,11 +1,11 @@
-import { Instances, Instance, OrthographicCamera, useGLTF, Edges, PivotControls, OrbitControls } from '@react-three/drei'
+import { OrthographicCamera, useGLTF, Edges, PivotControls, OrbitControls } from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Leva, useControls } from 'leva'
-import { Suspense, useRef, useEffect, useState, useCallback } from 'react'
+import { useRef, useEffect, useState, useCallback } from 'react'
 import { BallCollider, Physics, RigidBody, useFixedJoint } from '@react-three/rapier'
 import * as THREE from 'three'
 import Monitoring from '../components/Monitoring.jsx'
-import { FrontSide } from 'three'
+import { Floor } from '@/components/FloorGrid.jsx'
 
 const Pointer = () => {
   const shouldCollide = useRef(false);
@@ -127,7 +127,7 @@ const Hockey = () => {
   const physMesh = useRef()
   const { nodes } = useGLTF('./logo.glb')
   const { stiffness, enableRotations, enableTranslations } = useControls(
-    'Canvas.Fidget',
+    'Fidget',
     {
       stiffness: {
         value: 0.5,
@@ -142,7 +142,7 @@ const Hockey = () => {
         value: true
       }
     },
-    { collapsed: true }
+    { collapsed: false }
   )
 
   useFrame((state) => {
@@ -204,42 +204,9 @@ const Hockey = () => {
   )
 }
 
-const Floor = () => {
-  const crossNumber = 25
-  const crossLineWidth = 0.05
-  const crossHeight = 0.2
-
-  return (
-    <>
-      {/*<RigidBody type="fixed" friction={0.75} position={[0, -1, 0]}>
-        <mesh position={[0, 0, 0]}>
-          <boxGeometry args={[40, 0.2, 40]} />
-          <meshStandardMaterial color="#6EF7C9" />
-          <meshBasicMaterial color="#e04de8" transparent depthTest={false} opacity={0.5} />
-        </mesh>
-      </RigidBody>*/}
-      <Instances position={[0, -0.5, 0]}>
-        <planeGeometry args={[crossLineWidth, crossHeight]} />
-        <meshBasicMaterial color="#e04de8" opacity={0.5} transparent />
-        {Array.from({ length: crossNumber }, (_, y) =>
-          Array.from({ length: crossNumber }, (_, x) => (
-            <group key={x + ':' + y} position={[x * 3 - Math.floor(crossNumber / 2) * 3, 0.01, y * 3 - Math.floor(crossNumber / 2) * 3]}>
-              <Instance rotation={[-Math.PI / 2, 0, 0]} />
-              <Instance rotation={[-Math.PI / 2, 0, Math.PI / 2]} />
-            </group>
-          ))
-        )}
-        <gridHelper args={[80, 80]} position={[0, 0, 0]}>
-          <meshBasicMaterial color="#FFFFFF" opacity={0.05} transparent />
-        </gridHelper>
-      </Instances>
-    </>
-  )
-}
-
 const Scene = () => {
   const { debugPhysics, orbitControlF } = useControls(
-    'Canvas.Physics',
+    'Controls',
     {
       debugPhysics: false,
       orbitControlF: false
@@ -250,17 +217,22 @@ const Scene = () => {
     <section className={'content fidget'}>
       <Leva collapsed titleBar={{ title: '⚙️ Settings' }} />
       <Canvas className="webgl" dpr={1.5}>
+        {/* Performance */}
         <Monitoring />
-        <OrthographicCamera makeDefault position={[10, 10, 10]} zoom={40} near={1} far={80} />
+        {/* Camera */}
+        <OrthographicCamera makeDefault position={[10, 10, 10]} zoom={50} near={1} far={80} />
+        {/* Control */}
+        {orbitControlF && <OrbitControls makeDefault />}
+        {/* Environment */}
         <ambientLight intensity={1.25} color={'#f0f0f0'} />
         <color attach="background" args={['#2f1169']} />
+        {/* Scene */}
         <Physics gravity={[0, 0, 0]} debug={debugPhysics} timeStep="vary">
           <Hockey />
           <Floor />
         </Physics>
-        {/* Grid Infinite */}
-        {orbitControlF && <OrbitControls makeDefault />}
       </Canvas>
+      {/* Ux */}
       <div className="tips">Drag the hockey and hit the letter</div>
     </section>
   )
