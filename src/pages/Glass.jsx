@@ -10,6 +10,8 @@ import { useRef } from 'react'
 import Monitoring from '../components/Monitoring.jsx'
 import * as THREE from 'three'
 import { Floor } from '@/components/FloorGrid.jsx'
+import { easing } from 'maath'
+import { EffectComposer } from '@react-three/postprocessing'
 
 const Model = (props) => {
   const ref = useRef()
@@ -57,6 +59,18 @@ function Zoom({ vec = new THREE.Vector3(0, 0, 10) }) {
   })
 }
 
+function Rig() {
+  useFrame((state, delta) => {
+    easing.damp3(
+      state.camera.position,
+      [Math.sin(-state.pointer.x) + 5, state.pointer.y + 8, 7],
+      0.2,
+      delta,
+    )
+    state.camera.lookAt(0, 0, 0)
+  })
+}
+
 const Scene = () => {
   const {  orbitControlG } = useControls(
     'Controls',
@@ -89,7 +103,7 @@ const Scene = () => {
         <Model />
         <Floor />
         {/* Control */}
-        <Zoom />
+        <Rig />
       </Canvas>
       <div className="tips">Move your cursor</div>
     </section>

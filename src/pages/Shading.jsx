@@ -14,16 +14,17 @@ import { DissolveMaterial } from '@/material/DissolveMaterial.jsx'
 import { Floor } from '@/components/FloorGrid.jsx'
 
 const Model = (props) => {
-  const { itemDisplayed } = useControls({
+  const [{ itemDisplayed }, setItemDisplayed] = useControls('Model display',() => ( {
     itemDisplayed: {
       value: "box",
       options: ["box", "sphere"],
     },
-  });
+  }));
 
   const [visibleItem, setVisibleItem] = useState(itemDisplayed);
   const onFadeOut = () => {
     setVisibleItem(itemDisplayed)
+    setHovered(false)
   };
 
   const ref = useRef()
@@ -31,6 +32,13 @@ const Model = (props) => {
 
   const [hovered, setHovered] = useState()
   useCursor(hovered, /*'pointer', 'auto', document.body*/)
+
+  // Function to toggle visible item on click
+  const toggleVisibleItem = () => {
+    setItemDisplayed({ itemDisplayed: itemDisplayed === "box" ? "sphere" : "box" });
+    onFadeOut();
+    // setVisibleItem(itemDisplayed === "box" ? "sphere" : "box");
+  };
 
   return (
     <group
@@ -48,6 +56,7 @@ const Model = (props) => {
           geometry={nodes.V.geometry}
           material={nodes.V.material}
           {...props}
+          onClick={toggleVisibleItem}
         >
           <DissolveMaterial
             baseMaterial={nodes.V.material}
@@ -55,8 +64,12 @@ const Model = (props) => {
             onFadeOut={onFadeOut}
             color="#E41DED"
           />
-          {hovered && <Outlines thickness={0.03} angle={0} color="#e04de8"/>}
-          {hovered && <Edges scale={1.0} threshold={2} linewidth={2} color="#e04de8" />}
+          {(hovered) && (
+            <>
+              <Outlines thickness={0.03} angle={0} color="#e04de8" />
+              <Edges scale={1.0} threshold={2} linewidth={2} color="#e04de8" />
+            </>
+          )}
         </mesh>
       )}
       {visibleItem === "sphere" && (
@@ -65,10 +78,11 @@ const Model = (props) => {
           receiveShadow
           scale={2}
           position={[0, 0, 0]}
-          rotation={[Math.PI / 2, Math.PI, -Math.PI / 2]}
+          rotation={[Math.PI / 2, Math.PI, Math.PI * 2]}
           geometry={nodes.V.geometry}
           material={nodes.V.material}
           {...props}
+          onClick={toggleVisibleItem}
         >
           <DissolveMaterial
             baseMaterial={nodes.V.material}
@@ -76,10 +90,12 @@ const Model = (props) => {
             onFadeOut={onFadeOut}
             color="#2f1169"
           />
-
-
-          {hovered && <Outlines thickness={0.03} angle={0} color="#e04de8"/>}
-          {hovered && <Edges scale={1.0} threshold={2} linewidth={2} color="#e04de8" />}
+          {hovered && (
+            <>
+              <Outlines thickness={0.03} angle={0} color="#e04de8" />
+              <Edges scale={1.0} threshold={2} linewidth={2} color="#e04de8" />
+            </>
+          )}
         </mesh>
       )}
     </ group>
