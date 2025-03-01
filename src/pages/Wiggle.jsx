@@ -1,11 +1,11 @@
 import {
   useGLTF,
   OrbitControls,
-  DragControls, MeshTransmissionMaterial, Environment
+  DragControls, MeshTransmissionMaterial, Environment, ContactShadows
 } from '@react-three/drei'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Leva, useControls } from 'leva'
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useState, Suspense } from 'react'
 import Monitoring from '../components/Monitoring.jsx'
 import { WiggleBone } from 'wiggle'
 import { WiggleRigHelper } from "wiggle/helper";
@@ -20,6 +20,8 @@ export function Model(props) {
   const wiggleBones = useRef([]);
   const sceneThree = useThree((state) => state.scene)
   const [hovered, setHovered] = useState(false)
+  const [dragging, setDragging] = useState(false)
+  const [positionY, setPositionY] = useState(0); // initial y position
 
 
   // Add helper
@@ -38,15 +40,35 @@ export function Model(props) {
     { collapsed: false }
   )
 
+  const handleDrag = () => {
+    // Update model Y position during drag
+    setPositionY(0.5);
+    ref.current.position.y = positionY;
+  }
 
+  const handleDragEnd = () => {
+    // Update model Y position during drag
+    setDragging(false);
+    setPositionY(0);
+    ref.current.position.y = positionY;
+  }
+
+
+  // Update cursor based on hover/drag state
   useEffect(() => {
-    document.body.style.cursor = hovered ? 'grab' : 'auto'
-  }, [hovered])
+    if (dragging) {
+      document.body.style.cursor = 'grabbing'; // Cursor when dragging
+    } else if (hovered) {
+      document.body.style.cursor = 'grab'; // Cursor when hover
+    } else {
+      document.body.style.cursor = 'auto'; // Default cursor
+    }
+  }, [hovered, dragging]);
 
   useEffect(() => {
     wiggleBones.current.length = 0;
     nodes.RootBone.traverse((bone) => {
-      console.log(bone)
+      //console.log(bone)
       if (bone.isBone && bone !== nodes.RootBone) {
         const wiggleBone = new WiggleBone(bone, {
           velocity: 0.30,
@@ -71,6 +93,8 @@ export function Model(props) {
 
     if(wiggleRigHelper){
       sceneThree.add(helper)
+    } else {
+      sceneThree.remove(helper);
     }
   });
 
@@ -102,9 +126,12 @@ export function Model(props) {
     <DragControls
       transformGroup={true}
       axisLock={'y'}
-      dragLimits={[[-4,4],[0,0],[-4,4]]}
+      dragLimits={[[-9,6],[0,1],[-6,5]]}
+      onDragStart={() => setDragging(true)}
+      onDrag={handleDrag}
+      onDragEnd={() => handleDragEnd()}
     >
-      <group ref={ref} {...props}>
+      <group ref={ref} position={[0, positionY, 0]} {...props}>
         <skinnedMesh
           castShadow
           receiveShadow
@@ -141,7 +168,7 @@ const Scene = () => {
   return (
     <section className={'content'}>
       <Leva collapsed titleBar={{ title: '⚙️ Settings' }} />
-      <Canvas className="webgl" dpr={1.5} camera={{ position: [5,8,7], fov: 40 }}>
+      <Canvas className="webgl" dpr={1.5} camera={{ position: [5,8,7], fov: 45 }}>
         {/* Performance */}
         <Monitoring />
         {/* Control */}
@@ -155,11 +182,14 @@ const Scene = () => {
             enableDamping
           />}
         {/* Environment */}
-        <ambientLight intensity={1.25} color={'#f0f0f0'} />
+        <ambientLight intensity={1} color={'#f0f0f0'} />
         <color attach="background" args={['#2f1169']} />
         <Environment preset="city" blur={1} />
         {/* Scene */}
-        <Model />
+        <Suspense fallback={null}>
+          <Model />
+        </Suspense>
+        <ContactShadows resolution={1024} position={[0, -0.4, 0]} opacity={0.6} scale={20} blur={6} far={4} />
         <Floor />
       </Canvas>
       <div className="tips">Drag the letter</div>

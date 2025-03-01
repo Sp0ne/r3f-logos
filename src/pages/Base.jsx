@@ -43,7 +43,7 @@ const Scene = () => {
   return (
     <section className={'content'}>
       <Leva collapsed titleBar={{ title: '⚙️ Settings' }} />
-      <Canvas className="webgl" dpr={1.5} camera={{ position: [5,8,7], fov: 40 }}>
+      <Canvas className="webgl" dpr={1.5} camera={{ position: [5,8,7], fov: 45 }}>
         {/* Performance */}
         <Monitoring />
         {/* Control */}

@@ -220,7 +220,7 @@ const Scene = () => {
         {/* Performance */}
         <Monitoring />
         {/* Camera */}
-        <OrthographicCamera makeDefault position={[10, 10, 10]} zoom={50} near={1} far={80} />
+        <OrthographicCamera makeDefault position={[5,8,7]} zoom={50} near={1} far={80} />
         {/* Control */}
         {orbitControlF && <OrbitControls makeDefault />}
         {/* Environment */}

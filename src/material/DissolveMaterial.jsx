@@ -37,14 +37,14 @@ const fragmentShader = patchShaders(/* glsl */ `
   }`);
 
 export function DissolveMaterial({
-                                   baseMaterial,
-                                   thickness = 0.1,
-                                   color = "#e04de8",
-                                   intensity = 50,
-                                   duration = 1.2,
-                                   visible = true,
-                                   onFadeOut,
-                                 }) {
+   baseMaterial,
+   thickness = 0.1,
+   color = "#e04de8",
+   intensity = 50,
+   duration = 1.2,
+   visible = true,
+   onFadeOut,
+}) {
   const uniforms = React.useRef({
     uThickness: { value: 0.1 },
     uColor: { value: new THREE.Color("#e04de8").multiplyScalar(20) },

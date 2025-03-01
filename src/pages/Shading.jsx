@@ -3,7 +3,7 @@ import {
   OrbitControls,
   Environment,
   Outlines,
-  useCursor, Edges
+  useCursor, Edges, ContactShadows
 } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import { Leva, useControls } from 'leva'
@@ -12,6 +12,7 @@ import Monitoring from '../components/Monitoring.jsx'
 import { Bloom, EffectComposer } from '@react-three/postprocessing'
 import { DissolveMaterial } from '@/material/DissolveMaterial.jsx'
 import { Floor } from '@/components/FloorGrid.jsx'
+import BurnMaterial from '@/material/BurnMaterial.jsx'
 
 const Model = (props) => {
   const [{ itemDisplayed }, setItemDisplayed] = useControls('Model display',() => ( {
@@ -84,11 +85,16 @@ const Model = (props) => {
           {...props}
           onClick={toggleVisibleItem}
         >
-          <DissolveMaterial
+          <BurnMaterial
             baseMaterial={nodes.V.material}
+            baseColor="#592e83"
+            burnColor="#2f1169"
+            burnColorEnd="#2f1169"
+            burnAmt="15"
+            burnOffset="1"
+            burnWidth="1"
             visible={itemDisplayed === 'sphere'}
             onFadeOut={onFadeOut}
-            color="#2f1169"
           />
           {hovered && (
             <>
@@ -116,7 +122,7 @@ const Scene = () => {
   return (
     <section className={'content fidget'}>
       <Leva collapsed titleBar={{ title: '⚙️ Settings' }} />
-      <Canvas className="webgl" dpr={1.5} camera={{ position: [5,8,7], fov: 40 }}>
+      <Canvas className="webgl" dpr={1.5} camera={{ position: [5,8,7], fov: 45 }}>
         {/* Performance */}
         <Monitoring />
         {/* Control */}
@@ -139,7 +145,7 @@ const Scene = () => {
         {/* Effects */}
         <EffectComposer>
           <Bloom
-            luminanceThreshold={1}
+            luminanceThreshold={0.8}
             intensity={0.5}
             mipmapBlur
           />
